@@ -13,7 +13,7 @@ enum DaysOfWeek {
 public class HoursOfWork {
     public static void main(String[] args) {
         try {
-            System.out.println(GetRemainingHours(DaysOfWeek.MONDAY.ordinal()));
+            System.out.println(GetRemainingHours(DaysOfWeek.SUNDAY.ordinal()));
         } catch (DayOff e) {
             System.out.println(e.getMessage());
         }
