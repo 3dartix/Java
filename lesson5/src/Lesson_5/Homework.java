@@ -36,32 +36,45 @@ package Lesson_5;
 import java.util.ArrayList;
 
 public class Homework {
+
+    public static float[] arr;
+    public static float combineTimeArr;
+
     public static void main(String[] args) {
-        float[] arr = CreateArray();
+        arr = CreateArray();
         arr = FillInArray(arr);
 
-        //One(arr);
-        Two(arr,10);
-
+        //One();
+        //Two(10);
+        //Two(50);
+        Two(4);
     }
 
-    static void One(float[] arr){
+    static void One(){
         long a = System.currentTimeMillis();
         for (int i = 0; i < arr.length; i++){
             arr[i] = (float)(arr[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
         }
-        GetRuntime(a);
+        System.out.println("Время затраченное на выполнение задачи одним потоком: " + (System.currentTimeMillis() - a));
     }
 
-    static void Two(float[] arr, int streamCount){
-        long a = System.currentTimeMillis();
-        int h = arr.length/streamCount; //25
+    static void Two(int streamCount){
+        System.out.println("Количество потоков: " + streamCount);
+        int h = arr.length/streamCount;
+        ArrayList<float[]> arrayList = new ArrayList<float[]>(streamCount);
 
+        long fullTime = System.currentTimeMillis();
+        long a = System.currentTimeMillis();
         for (int i = 0; i < streamCount; i++) {
             float[] tempArr = new float[h];
             System.arraycopy(arr, i*h, tempArr, 0, h);
+            arrayList.add(tempArr);
+        }
+        System.out.println("Время затраченное на разделение массивов: " + (System.currentTimeMillis() - a));
 
-            MyThread t = new MyThread(tempArr,arr,h,(i*h));
+        for (int i=0; i < streamCount; i++) {
+            a = System.currentTimeMillis();
+            MyThread t = new MyThread(arrayList.get(i),h,(i*h));
             t.start();
 
             try {
@@ -69,9 +82,10 @@ public class Homework {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
+            System.out.println("Время затраченное на расчет " + (i+1) + " массива: " + (System.currentTimeMillis() - a));
         }
-        GetRuntime(a);
+        System.out.println("Время затраченное на склейку: " + combineTimeArr);
+        System.out.println("\nВремя выполнения задачи: " + (System.currentTimeMillis() - fullTime));
     }
 
     static float[] CreateArray(){
@@ -86,22 +100,17 @@ public class Homework {
         }
         return arr;
     }
-    static void GetRuntime(double a){
-        System.out.println(System.currentTimeMillis() - a);
-    }
 
     static class MyThread extends Thread {
         private float[] tempArr;
-        private float[] arr;
         private int h;
         private int startPosArr;
 
-        public MyThread(float[] tempArr, float[] arr, int h, int startPosArr) {
+        public MyThread(float[] tempArr, int h, int startPosArr) {
             this.tempArr = tempArr;
-            this.arr = arr;
             this.h = h;
             //передаем параметр элемента с которого мы начинаем копировать
-            // результаты в старый массив arr
+            // результаты в основной массив arr
             this.startPosArr = startPosArr;
     }
 
@@ -110,8 +119,9 @@ public class Homework {
             for (int i = 0; i < tempArr.length; i++){
                 tempArr[i] = (float)(tempArr[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
             }
+            long a = System.currentTimeMillis();
             System.arraycopy(tempArr, 0, arr, startPosArr, h);
-
+            combineTimeArr += System.currentTimeMillis() - a;
         }
     }
 
