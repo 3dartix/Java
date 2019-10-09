@@ -14,11 +14,13 @@ public class ClientHandler {
     private DataInputStream in; //входящий поток
     private DataOutputStream out; //исходящий поток
     private MainServer server;
+    private ClientHandler client;
 
     //private
 
     public ClientHandler(MainServer server, Socket socket) {
         try {
+            client = this;
             this.server = server;
             this.socket = socket;
             in = new DataInputStream(socket.getInputStream());
@@ -70,9 +72,12 @@ public class ClientHandler {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+                        server.DeleteClientFromCollection(client);
                     }
                 }
             }).start();
+
+
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,0 +1,75 @@
+.root, .label, .text-area, .content {
+    -fx-background-color: #232323;
+    -fx-text-fill: #d9d9d9;
+    -fx-border-color: #232323;
+}
+
+#OnlineArea, .content{
+    -fx-text-fill: #33CC66;
+}
+
+.text-field {
+    -fx-background-color: #454545;
+    -fx-text-fill: #d9d9d9;
+}
+
+#textArea, .content {
+    -fx-background-image: url("bg.png");
+}
+
+.separator *.line {
+    -fx-border-style: solid;
+    -fx-border-color: #454545;
+    -fx-border-width: 1px;
+}
+
+#btn1{
+    -fx-background-color: #00444a;
+    -fx-text-fill: #d9d9d9;
+}
+
+#btn2{
+    -fx-background-color: #232323;
+    -fx-background-image: url("att.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover, auto;
+    -fx-background-position: center;
+}
+
+.button: hover{
+    -fx-background-color: red;
+    -fx-opacity: 0.9;
+}
+
+.button: hover: pressed{
+    -fx-background-color: red;
+    -fx-opacity: 0.5;
+}
+
+.scroll-bar {
+    -fx-background-color: #282828;
+    -fx-background-color :transparent;
+    -fx-border-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-border-radius :2.0em;
+}
+
+.thumb {
+-fx-background-color: #595959;
+}
+
+
+#loginField, #loginField, #passwordField {
+ -fx-background-color: #595959;
+ -fx-background-radius : 2.0em;
+ -fx-border-radius :5.0em;
+}
+
+#chatPanel, .text-input {
+}
+
+#authoBtn1{
+    -fx-background-color: #00444a;
+    -fx-background-radius : 0.0em;
+    -fx-text-fill: #d9d9d9;
+}
