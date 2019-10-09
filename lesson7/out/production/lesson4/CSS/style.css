@@ -68,7 +68,7 @@
 #chatPanel, .text-input {
 }
 
-#authoBtn1{
+#authoBtn1, #registBtn1, #registBtn1Reg{
     -fx-background-color: #00444a;
     -fx-background-radius : 0.0em;
     -fx-text-fill: #d9d9d9;

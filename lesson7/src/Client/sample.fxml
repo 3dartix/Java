@@ -15,6 +15,66 @@
 
 <VBox fx:id="mainBG" alignment="center" maxWidth="1.7976931348623157E308" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller">
     <stylesheets><URL value="@/CSS/style.css" /></stylesheets>
+
+   <VBox fx:id="registrationPanel" alignment="CENTER" managed="false" minHeight="-Infinity" minWidth="-Infinity" visible="false">
+      <children>
+         <Label text="Регистрация">
+            <font>
+               <Font size="29.0" />
+            </font>
+            <VBox.margin>
+               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </VBox.margin>
+         </Label>
+         <TextField fx:id="nickFieldReg" focusTraversable="false" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" promptText="Придумате ник">
+            <padding>
+               <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+            </padding>
+            <VBox.margin>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </VBox.margin></TextField>
+         <TextField fx:id="loginFieldReg" focusTraversable="false" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" promptText="Введите логин">
+            <padding>
+               <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+            </padding>
+            <VBox.margin>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </VBox.margin></TextField>
+         <TextField fx:id="passwordFieldReg" focusTraversable="false" maxWidth="-Infinity" minWidth="-Infinity" onAction="#tryToAuth" prefWidth="300.0" promptText="Введите пароль">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+            <VBox.margin>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </VBox.margin>
+            <padding>
+               <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+            </padding></TextField>
+         <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefWidth="300.0">
+            <children>
+               <HBox>
+                  <children>
+                     <Button fx:id="registBtn1Reg" mnemonicParsing="false" onAction="#RegisterStarts" text="Зарегистрироваться">
+                        <padding>
+                           <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                        </padding>
+                        <HBox.margin>
+                           <Insets />
+                        </HBox.margin>
+                        <opaqueInsets>
+                           <Insets />
+                        </opaqueInsets>
+                     </Button>
+                  </children>
+               </HBox>
+            </children>
+            <VBox.margin>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </VBox.margin>
+         </Pane>
+      </children>
+   </VBox>
+
    <VBox fx:id="authorizationPanel" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity">
       <children>
          <Label text="Авторизация">
@@ -44,11 +104,26 @@
             </padding></TextField>
          <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefWidth="300.0">
             <children>
-               <Button fx:id="authoBtn1" alignment="TOP_LEFT" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#tryToAuth" text="Подключиться">
-                  <padding>
-                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                  </padding>
-               </Button>
+               <HBox>
+                  <children>
+                     <Button fx:id="authoBtn1" alignment="TOP_LEFT" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#tryToAuth" text="Подключиться">
+                        <padding>
+                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        </padding>
+                     </Button>
+                     <Button fx:id="registBtn1" mnemonicParsing="false" onAction="#RegistrationPanelEnable" text="Регистрация">
+                        <padding>
+                           <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                        </padding>
+                        <HBox.margin>
+                           <Insets left="20.0" />
+                        </HBox.margin>
+                        <opaqueInsets>
+                           <Insets />
+                        </opaqueInsets>
+                     </Button>
+                  </children>
+               </HBox>
             </children>
             <VBox.margin>
                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

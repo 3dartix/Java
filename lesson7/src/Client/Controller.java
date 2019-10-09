@@ -17,6 +17,7 @@ import java.net.Socket;
 public class Controller {
 
     private boolean isAuthorized;
+    private boolean isRegistration;
 
     @FXML
     TextField textField;
@@ -36,6 +37,9 @@ public class Controller {
     TextField passwordField;
     @FXML
     Label labelAuth;
+    @FXML
+    VBox registrationPanel;
+
 
     Socket socket;
     DataInputStream in; //входящий поток
@@ -45,6 +49,25 @@ public class Controller {
     final int PORT = 8189;
 
 
+    public void RegistrationPanelEnable(ActionEvent actionEvent) {
+        registrationPanel.setVisible(true);
+        registrationPanel.setManaged(true);
+        authorizationPanel.setVisible(false);
+        authorizationPanel.setManaged(false);
+    }
+
+    public void RegistrationPanelDisable() {
+        registrationPanel.setVisible(false);
+        registrationPanel.setManaged(false);
+        authorizationPanel.setVisible(true);
+        authorizationPanel.setManaged(true);
+        System.out.println("регистраци отключена");
+    }
+
+    public void RegisterStarts (ActionEvent actionEvent){
+        RegistrationPanelDisable();
+        //собираем данные и отправляем куда-то
+    }
 
     private void setAuthrized(boolean isAuthorized) {
         this.isAuthorized = isAuthorized;
