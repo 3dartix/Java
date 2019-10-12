@@ -62,26 +62,25 @@ public class MainServer {
     }
 
     public void BroadcastMessage(String msg){
-        for (ClientHandler client: clients) {
-            client.SendMessage(msg);
+        for (ClientHandler el: clients) {
+            el.SendMessage(msg);
         }
     }
 
-    public void SendMessageToUser(String name, String msg){
-        for (ClientHandler client: clients) {
-            if(name.equalsIgnoreCase(client.nick)){
-                client.SendMessage(msg);
+    public void BroadcastMessage(ClientHandler client, String msg){
+        for (ClientHandler el: clients) {
+            if (!el.cheeckBlackList(client.nick)) {
+                el.SendMessage(msg);
             }
         }
     }
 
-    public String GetAllOnlineUsers(){
-        String users = "/usersOnline";
+    public void SendMessageToUser(String from, String to, String msg){
         for (ClientHandler client: clients) {
-            users += client.nick + " ";
+            if(to.equalsIgnoreCase(client.nick)){
+                client.SendMessage("From " + from + ": " + msg);
+            }
         }
-        System.out.println(users);
-        return users;
     }
 
     public void subscribe(ClientHandler client) {

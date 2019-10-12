@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class ClientHandler {
@@ -17,6 +19,9 @@ public class ClientHandler {
     private MainServer server;
 
     public String nick;
+    public String id;
+
+    public List<String> blackList;
 
     public ClientHandler(MainServer server, Socket socket) {
         try {
@@ -24,6 +29,7 @@ public class ClientHandler {
             this.socket = socket;
             this.in = new DataInputStream(socket.getInputStream());
             this.out = new DataOutputStream(socket.getOutputStream());
+            blackList = new ArrayList<>();
 
             new Thread(new Runnable() {
                 @Override
@@ -38,6 +44,10 @@ public class ClientHandler {
                                 if (currentNick != null && !server.isNickOnline(currentNick)) {
                                     SendMessage("/authok" + " " + currentNick);
                                     nick = currentNick;
+
+                                    id = AuthService.getIdByNick(nick);
+                                    blackList = AuthService.getArrBlackList(id);
+
                                     server.subscribe(ClientHandler.this);
                                     break;
                                 } else {
@@ -48,17 +58,22 @@ public class ClientHandler {
 
                         while (true) {
                             String str = in.readUTF();
-                            if (str.equalsIgnoreCase("/end")) {
-                                SendMessage("/clientClose");
-                                break;
-                            }
-
-                            if (str.startsWith("/w")) {
-                                String[] tokens = str.split(" ");
-                                String currentNick = AuthService.getNickByLoginAndPass(tokens[1], tokens[2]);
-                                server.SendMessageToUser(tokens[1], tokens[2]);
+                            if (str.startsWith("/")){
+                                if (str.equalsIgnoreCase("/end")) {
+                                    SendMessage("/clientClose");
+                                    break;
+                                } else if (str.startsWith("/w")){
+                                    String[] tokens = str.split(" ", 3); //сплитаем на 3 части
+                                    //String currentNick = AuthService.getNickByLoginAndPass(tokens[1], tokens[2]);
+                                    server.SendMessageToUser(nick, tokens[1], tokens[2]);
+                                }  else if (str.startsWith("/blacklist")){
+                                    String[] tokens = str.split(" "); //сплитаем на 3 части
+                                    out.writeUTF("Пользователь " + tokens[1] + " заблокирован!");
+                                    AddUserToBlackList(tokens[1]); //блокируем пользователя
+                                }
                             } else {
-                                server.BroadcastMessage(nick + ": " + str);
+                                //server.BroadcastMessage(str);
+                                server.BroadcastMessage(ClientHandler.this, nick + ": " + str);
                                 System.out.println(nick + ": " + str);
                             }
                         }
@@ -66,6 +81,7 @@ public class ClientHandler {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
+
                         e.printStackTrace();
                     } finally {
                         try {
@@ -99,4 +115,18 @@ public class ClientHandler {
             e.printStackTrace();
         }
     }
+
+    public boolean cheeckBlackList(String name){
+        System.out.println(blackList.size());
+        return blackList.contains(name);
+    }
+    
+    public void AddUserToBlackList(String user) throws SQLException {
+        if(!cheeckBlackList(user)){
+            blackList.add(user);
+            AuthService.addUserToBlackList(id, user);
+        }
+
+    }
+
 }
