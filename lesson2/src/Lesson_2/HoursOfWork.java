@@ -19,6 +19,7 @@ public class HoursOfWork {
         }
     }
 
+
     public static int GetRemainingHours (int day) throws DayOff{
         if (day > 4){
             throw new DayOff("Сегодня выходной");
